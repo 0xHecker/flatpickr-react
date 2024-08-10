@@ -2,8 +2,8 @@
   "name": "flatpickr-react",
   "version": "1.0.0",
   "description": "flatpickr an extensible date time picker for react",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/DateTimePicker.js",
+  "types": "dist/DateTimePicker.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
