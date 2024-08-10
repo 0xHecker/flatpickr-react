@@ -28,22 +28,22 @@ import DateTimePicker from "flatpickr-react";
 import "flatpickr/dist/flatpickr.css";
 
 function App() {
-	const [date, setDate] = (useState < Date) | (null > null);
+  const [date, setDate] = useState<Date | null>(null);
 
-	return (
-		<div>
-			<DateTimePicker
-				options={{
-					dateFormat: "Y-m-d",
-				}}
-				value={date}
-				onChange={(selectedDate: Date) => {
-					setDate(selectedDate);
-				}}
-			/>
-			<p>Selected Date: {date ? date.toString() : "None"}</p>
-		</div>
-	);
+  return (
+    <div>
+      <DateTimePicker
+        options={{
+          dateFormat: "Y-m-d",
+        }}
+        value={date}
+        onChange={(selectedDate: Date) => {
+          setDate(selectedDate);
+        }}
+      />
+      <p>Selected Date: {date ? date.toString() : "None"}</p>
+    </div>
+  );
 }
 
 export default App;
@@ -78,9 +78,9 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    dateFormat: "Y-m-d",
+  }}
 />
 ```
 
@@ -88,10 +88,10 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		enableTime: true,
-		dateFormat: "Y-m-d H:i",
-	}}
+  options={{
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+  }}
 />
 ```
 
@@ -99,10 +99,10 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		mode: "range",
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    mode: "range",
+    dateFormat: "Y-m-d",
+  }}
 />
 ```
 
@@ -110,10 +110,10 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		mode: "multiple",
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    mode: "multiple",
+    dateFormat: "Y-m-d",
+  }}
 />
 ```
 
@@ -123,25 +123,28 @@ The `DateTimePicker` component accepts the following props:
 import { Spanish } from "flatpickr/dist/l10n/es";
 
 <DateTimePicker
-	options={{
-		dateFormat: "Y-m-d",
-	}}
-	locale={Spanish}
-/>;
+  options={{
+    dateFormat: "Y-m-d",
+  }}
+  locale={Spanish}
+/>
 ```
 
 #### Example 6: Custom Render Function
 
 ```jsx
 <DateTimePicker
-	render={(props, ref) => (
-		<div className="custom-wrapper">
-			<label>Select Date:</label>
-			<button {...props} ref={ref}>
-				Pick a date
-			</button>
-		</div>
-	)}
+  render={(
+    props,
+    ref
+  ) => (
+    <div className="custom-wrapper">
+      <label>Select Date:</label>
+      <button {...props} ref={ref}>
+        Pick a date
+      </button>
+    </div>
+  )}
 />
 ```
 
@@ -149,14 +152,14 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 
 ```jsx
 <DateTimePicker
-	onOpen={() => console.log("Opened")}
-	onClose={() => console.log("Closed")}
-	onChange={(selectedDates) => console.log("Date changed", selectedDates)}
-	onMonthChange={(selectedDates, dateStr, instance) => console.log("Month changed")}
-	onYearChange={(selectedDates, dateStr, instance) => console.log("Year changed")}
-	onReady={(selectedDates, dateStr, instance) => console.log("Ready")}
-	onValueUpdate={(selectedDates, dateStr, instance) => console.log("Value updated")}
-	onDayCreate={(selectedDates, dateStr, instance, dayElement) => console.log("Day created")}
+  onOpen={() => console.log("Opened")}
+  onClose={() => console.log("Closed")}
+  onChange={(selectedDates) => console.log("Date changed", selectedDates)}
+  onMonthChange={(selectedDates, dateStr, instance) => console.log("Month changed")}
+  onYearChange={(selectedDates, dateStr, instance) => console.log("Year changed")}
+  onReady={(selectedDates, dateStr, instance) => console.log("Ready")}
+  onValueUpdate={(selectedDates, dateStr, instance) => console.log("Value updated")}
+  onDayCreate={(selectedDates, dateStr, instance, dayElement) => console.log("Day created")}
 />
 ```
 
@@ -164,9 +167,9 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 
 ```jsx
 <DateTimePicker
-	options={{
-		position: "top",
-	}}
+  options={{
+    position: "top",
+  }}
 />
 ```
 
@@ -185,4 +188,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ---
 
-Feel free to customize the README file further to match your specific needs and preferences
+Feel free to customize the README file further to match your specific needs and preferences.
