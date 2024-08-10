@@ -185,4 +185,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ---
 
-Feel free to customize the README file further to match your specific needs and preferences.
+Feel free to customize the README file further to match your specific needs and preferences
