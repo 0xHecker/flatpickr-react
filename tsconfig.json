@@ -1,7 +1,6 @@
 {
   "include": [
     "src",
-    "test/DateTimePicker.test.tsx",
   ],
   "compilerOptions": {
     "target": "es2016",

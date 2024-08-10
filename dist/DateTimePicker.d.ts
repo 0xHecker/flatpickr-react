@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react";
 import { Instance } from "flatpickr/dist/types/instance";
-import { Options, Plugin } from "flatpickr/dist/types/options";
 import { CustomLocale, Locale } from "flatpickr/dist/types/locale";
+import React, { ReactElement } from "react";
+import { Options, Plugin } from "flatpickr/dist/types/options";
 export type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 export interface DateTimePickerProps extends Omit<React.ComponentPropsWithoutRef<"input">, "children" | "value" | "onChange"> {
     defaultValue?: string | undefined;

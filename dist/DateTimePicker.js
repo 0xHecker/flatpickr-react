@@ -10,8 +10,8 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import { jsx as _jsx } from "react/jsx-runtime";
-import { useRef, useEffect, useCallback } from "react";
 import flatpickr from "flatpickr";
+import { useRef, useEffect, useCallback } from "react";
 const hooks = [
     "onChange",
     "onOpen",
