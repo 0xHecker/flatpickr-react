@@ -1,0 +1,39 @@
+{
+  "include": [
+    "src",
+    "test/DateTimePicker.test.tsx",
+  ],
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "es2015",
+    "declaration": true,
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "jsx": "react-jsx",
+    "noEmit": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "paths": {
+      "flatpickr": [
+        "node_modules/flatpickr"
+      ]
+    },
+  }
+}

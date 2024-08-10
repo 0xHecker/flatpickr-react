@@ -1,0 +1,43 @@
+{
+  "name": "flatpickr-react",
+  "version": "1.0.0",
+  "description": "flatpickr an extensible date time picker for react",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "flatpickr",
+    "flatpickr-react",
+    "react-flatpickr",
+    "date picker",
+    "date time picker",
+    "date picker react",
+    "date time picker react"
+  ],
+  "author": "Sai Shanmukh",
+  "license": "MIT",
+  "dependencies": {
+    "flatpickr": "^4.6.13",
+    "react": "^18.3.1"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@types/flatpickr": "^3.1.2",
+    "@types/jest": "^29.5.12",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
