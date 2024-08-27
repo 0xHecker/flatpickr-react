@@ -172,6 +172,15 @@ import { Spanish } from "flatpickr/dist/l10n/es";
   }}
 />
 ```
+#### Example 9: Render Calander Without Input Element
+```jsx
+<DateTimePicker
+  options={{
+    inline: true,
+    dateFormat: "Y-m-d",
+  }}
+/>
+```
 
 ## License
 
