@@ -78,9 +78,9 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    dateFormat: 'Y-m-d',
+  }}
 />
 ```
 
@@ -88,10 +88,10 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		enableTime: true,
-		dateFormat: "Y-m-d H:i",
-	}}
+  options={{
+    enableTime: true,
+    dateFormat: 'Y-m-d H:i',
+  }}
 />
 ```
 
@@ -99,10 +99,10 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		mode: "range",
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    mode: 'range',
+    dateFormat: 'Y-m-d',
+  }}
 />
 ```
 
@@ -110,23 +110,23 @@ The `DateTimePicker` component accepts the following props:
 
 ```jsx
 <DateTimePicker
-	options={{
-		mode: "multiple",
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    mode: 'multiple',
+    dateFormat: 'Y-m-d',
+  }}
 />
 ```
 
 #### Example 5: Custom Locale
 
 ```jsx
-import { Spanish } from "flatpickr/dist/l10n/es";
+import { Spanish } from 'flatpickr/dist/l10n/es';
 
 <DateTimePicker
-	options={{
-		dateFormat: "Y-m-d",
-	}}
-	locale={Spanish}
+  options={{
+    dateFormat: 'Y-m-d',
+  }}
+  locale={Spanish}
 />;
 ```
 
@@ -134,14 +134,14 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 
 ```jsx
 <DateTimePicker
-	render={(props, ref) => (
-		<div className="custom-wrapper">
-			<label>Select Date:</label>
-			<button {...props} ref={ref}>
-				Pick a date
-			</button>
-		</div>
-	)}
+  render={(props, ref) => (
+    <div className="custom-wrapper">
+      <label>Select Date:</label>
+      <button {...props} ref={ref}>
+        Pick a date
+      </button>
+    </div>
+  )}
 />
 ```
 
@@ -149,14 +149,14 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 
 ```jsx
 <DateTimePicker
-	onOpen={() => console.log("Opened")}
-	onClose={() => console.log("Closed")}
-	onChange={(selectedDates) => console.log("Date changed", selectedDates)}
-	onMonthChange={(selectedDates, dateStr, instance) => console.log("Month changed")}
-	onYearChange={(selectedDates, dateStr, instance) => console.log("Year changed")}
-	onReady={(selectedDates, dateStr, instance) => console.log("Ready")}
-	onValueUpdate={(selectedDates, dateStr, instance) => console.log("Value updated")}
-	onDayCreate={(selectedDates, dateStr, instance, dayElement) => console.log("Day created")}
+  onOpen={() => console.log('Opened')}
+  onClose={() => console.log('Closed')}
+  onChange={(selectedDates) => console.log('Date changed', selectedDates)}
+  onMonthChange={(selectedDates, dateStr, instance) => console.log('Month changed')}
+  onYearChange={(selectedDates, dateStr, instance) => console.log('Year changed')}
+  onReady={(selectedDates, dateStr, instance) => console.log('Ready')}
+  onValueUpdate={(selectedDates, dateStr, instance) => console.log('Value updated')}
+  onDayCreate={(selectedDates, dateStr, instance, dayElement) => console.log('Day created')}
 />
 ```
 
@@ -164,9 +164,9 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 
 ```jsx
 <DateTimePicker
-	options={{
-		position: "top",
-	}}
+  options={{
+    position: 'top',
+  }}
 />
 ```
 
@@ -174,10 +174,10 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 
 ```jsx
 <DateTimePicker
-	options={{
-		inline: true,
-		dateFormat: "Y-m-d",
-	}}
+  options={{
+    inline: true,
+    dateFormat: 'Y-m-d',
+  }}
 />
 ```
 

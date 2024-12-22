@@ -1,7 +1,5 @@
 {
-  "include": [
-    "src",
-  ],
+  "include": ["src"],
   "compilerOptions": {
     "target": "es2016",
     "module": "es2015",
@@ -30,9 +28,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "paths": {
-      "flatpickr": [
-        "node_modules/flatpickr"
-      ]
-    },
+      "flatpickr": ["node_modules/flatpickr"]
+    }
   }
 }

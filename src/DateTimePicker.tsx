@@ -1,215 +1,240 @@
-import flatpickr from "flatpickr";
-import { Instance } from "flatpickr/dist/types/instance";
-import { CustomLocale, Locale } from "flatpickr/dist/types/locale";
-import React, { useRef, useEffect, useCallback, ReactElement } from "react";
-import { DateOption, Hook, Options, Plugin } from "flatpickr/dist/types/options";
+import flatpickr from 'flatpickr';
+import { Instance } from 'flatpickr/dist/types/instance';
+import { CustomLocale, Locale } from 'flatpickr/dist/types/locale';
+import React, { useRef, useEffect, useCallback, ReactElement } from 'react';
+import { DateOption, Hook, Options, Plugin } from 'flatpickr/dist/types/options';
 
 type FlatpickrOptionValue =
-	| Hook
-	| HTMLElement
-	| Element
-	| Date
-	| ((e: Error) => void)
-	| ((date: Date, format: string, locale: Locale) => string)
-	| ((date: Date) => string | number)
-	| Partial<Options>
-	| ((date: string, format: string) => Date)
-	| ((self: Instance, customElement: HTMLElement | undefined) => void);
+  | Hook
+  | HTMLElement
+  | Element
+  | Date
+  | ((e: Error) => void)
+  | ((date: Date, format: string, locale: Locale) => string)
+  | ((date: Date) => string | number)
+  | Partial<Options>
+  | ((date: string, format: string) => Date)
+  | ((self: Instance, customElement: HTMLElement | undefined) => void);
 
 export type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 
-export interface DateTimePickerProps extends Omit<React.ComponentPropsWithoutRef<"input">, "children" | "value" | "onChange"> {
-	defaultValue?: string | undefined;
-	options?: Options | undefined;
-	locale?: Locale | CustomLocale;
-	plugins?: Plugin[];
-	onChange?: Options["onChange"];
-	onOpen?: Options["onOpen"];
-	onClose?: Options["onClose"];
-	onMonthChange?: Options["onMonthChange"];
-	onYearChange?: Options["onYearChange"];
-	onReady?: Options["onReady"];
-	onValueUpdate?: Options["onValueUpdate"];
-	onDayCreate?: Options["onDayCreate"];
-	value?: string | Date | number | ReadonlyArray<string | Date | number> | undefined;
-	className?: string | undefined;
-	children?: React.ReactNode | undefined;
-	render?:
-		| ((props: Omit<DateTimePickerProps, "options" | "render">, ref: (node: HTMLElement | null) => void, instance: Instance | null) => ReactElement)
-		| undefined;
-	onCreate?: (instance: Instance) => void;
-	onDestroy?: (instance: Instance | null) => void;
+export interface DateTimePickerProps
+  extends Omit<React.ComponentPropsWithoutRef<'input'>, 'children' | 'value' | 'onChange'> {
+  defaultValue?: string | undefined;
+  options?: Options | undefined;
+  locale?: Locale | CustomLocale;
+  plugins?: Plugin[];
+  onChange?: Options['onChange'];
+  onOpen?: Options['onOpen'];
+  onClose?: Options['onClose'];
+  onMonthChange?: Options['onMonthChange'];
+  onYearChange?: Options['onYearChange'];
+  onReady?: Options['onReady'];
+  onValueUpdate?: Options['onValueUpdate'];
+  onDayCreate?: Options['onDayCreate'];
+  value?: string | Date | number | ReadonlyArray<string | Date | number> | undefined;
+  className?: string | undefined;
+  children?: React.ReactNode | undefined;
+  render?:
+    | ((
+        props: Omit<DateTimePickerProps, 'options' | 'render'>,
+        ref: (node: HTMLElement | null) => void,
+        instance: Instance | null
+      ) => ReactElement)
+    | undefined;
+  onCreate?: (instance: Instance) => void;
+  onDestroy?: (instance: Instance | null) => void;
 }
 
-const hooks = ["onChange", "onOpen", "onClose", "onMonthChange", "onYearChange", "onReady", "onValueUpdate", "onDayCreate"] as const;
+const hooks = [
+  'onChange',
+  'onOpen',
+  'onClose',
+  'onMonthChange',
+  'onYearChange',
+  'onReady',
+  'onValueUpdate',
+  'onDayCreate',
+] as const;
 
-const callbacks = ["onCreate", "onDestroy"] as const;
+const callbacks = ['onCreate', 'onDestroy'] as const;
 
-const formatValue = (value: string | Date | number | ReadonlyArray<string | Date | number>, dateFormat?: string): string => {
-	if (Array.isArray(value)) {
-		return value.map((v) => formatValue(v, dateFormat)).join(", ");
-	}
-	if (value instanceof Date) {
-		if (dateFormat) {
-			return `${value.getFullYear()}.${String(value.getMonth() + 1).padStart(2, "0")}.${String(value.getDate()).padStart(2, "0")}`;
-		}
-		return value.toISOString().split("T")[0] || "";
-	}
-	if (typeof value === "string") {
-		if (dateFormat === "Y.m.d") {
-			return value.replace(/-/g, ".");
-		}
-		const dateRegex = /^(\d{4})\.(\d{2})\.(\d{2})$/;
-		if (dateRegex.test(value)) {
-			return value.replace(/\./g, "-");
-		}
-	}
-	return String(value);
+const formatValue = (
+  value: string | Date | number | ReadonlyArray<string | Date | number>,
+  dateFormat?: string
+): string => {
+  if (Array.isArray(value)) {
+    return value.map((v) => formatValue(v, dateFormat)).join(', ');
+  }
+  if (value instanceof Date) {
+    if (dateFormat) {
+      return `${value.getFullYear()}.${String(value.getMonth() + 1).padStart(2, '0')}.${String(value.getDate()).padStart(2, '0')}`;
+    }
+    return value.toISOString().split('T')[0] || '';
+  }
+  if (typeof value === 'string') {
+    if (dateFormat === 'Y.m.d') {
+      return value.replace(/-/g, '.');
+    }
+    const dateRegex = /^(\d{4})\.(\d{2})\.(\d{2})$/;
+    if (dateRegex.test(value)) {
+      return value.replace(/\./g, '-');
+    }
+  }
+  return String(value);
 };
 
 const mergeHooks = (inputOptions: Partial<Options>, props: DateTimePickerProps): Partial<Options> => {
-	const options = { ...inputOptions };
+  const options = { ...inputOptions };
 
-	hooks.forEach((hook) => {
-		if (props[hook]) {
-			if (options[hook] && !Array.isArray(options[hook])) {
-				options[hook] = [options[hook]];
-			} else if (!options[hook]) {
-				options[hook] = [];
-			}
+  hooks.forEach((hook) => {
+    if (props[hook]) {
+      if (options[hook] && !Array.isArray(options[hook])) {
+        options[hook] = [options[hook]];
+      } else if (!options[hook]) {
+        options[hook] = [];
+      }
 
-			const propHook = Array.isArray(props[hook]) ? props[hook] : [props[hook]];
-			options[hook]!.push(...propHook);
-		}
-	});
+      const propHook = Array.isArray(props[hook]) ? props[hook] : [props[hook]];
+      options[hook]!.push(...propHook);
+    }
+  });
 
-	return options;
+  return options;
 };
 
-const DateTimePicker: React.FC<DateTimePickerProps> = ({ defaultValue = "", options = {}, value, children, className, render, ...props }) => {
-	const nodeRef = useRef<HTMLInputElement | null>(null);
-	const flatpickrInstance = useRef<Instance | null>(null);
+const DateTimePicker: React.FC<DateTimePickerProps> = ({
+  defaultValue = '',
+  options = {},
+  value,
+  children,
+  className,
+  render,
+  ...props
+}) => {
+  const nodeRef = useRef<HTMLInputElement | null>(null);
+  const flatpickrInstance = useRef<Instance | null>(null);
 
-	const createFlatpickrInstance = useCallback(() => {
-		if (!nodeRef.current) return;
+  const createFlatpickrInstance = useCallback(() => {
+    if (!nodeRef.current) return;
 
-		let mergedOptions: Partial<Options> = {
-			onClose: () => {
-				if (nodeRef.current) {
-					nodeRef.current.blur();
-				}
-			},
-			...options,
-			locale: props.locale || options.locale,
-			plugins: [...(options.plugins || []), ...(props.plugins || [])],
-		};
+    let mergedOptions: Partial<Options> = {
+      onClose: () => {
+        if (nodeRef.current) {
+          nodeRef.current.blur();
+        }
+      },
+      ...options,
+      locale: props.locale || options.locale,
+      plugins: [...(options.plugins || []), ...(props.plugins || [])],
+    };
 
-		mergedOptions = mergeHooks(mergedOptions, props);
+    mergedOptions = mergeHooks(mergedOptions, props);
 
-		flatpickrInstance.current = flatpickr(nodeRef.current, mergedOptions);
+    flatpickrInstance.current = flatpickr(nodeRef.current, mergedOptions);
 
-		if (value !== undefined) {
-			const mutableValue = Array.isArray(value) ? [...value] : value;
-			flatpickrInstance.current.setDate(mutableValue as DateOption | DateOption[], false);
-		}
-		if (props.onCreate) {
-			props.onCreate(flatpickrInstance.current);
-		}
-	}, [options, props, value]);
+    if (value !== undefined) {
+      const mutableValue = Array.isArray(value) ? [...value] : value;
+      flatpickrInstance.current.setDate(mutableValue as DateOption | DateOption[], false);
+    }
+    if (props.onCreate) {
+      props.onCreate(flatpickrInstance.current);
+    }
+  }, [options, props, value]);
 
-	const destroyFlatpickrInstance = useCallback(() => {
-		if (props.onDestroy && flatpickrInstance.current) {
-			props.onDestroy(flatpickrInstance.current);
-		}
-		if (flatpickrInstance.current) {
-			flatpickrInstance.current.destroy();
-			flatpickrInstance.current = null;
-		}
-	}, [props]);
+  const destroyFlatpickrInstance = useCallback(() => {
+    if (props.onDestroy && flatpickrInstance.current) {
+      props.onDestroy(flatpickrInstance.current);
+    }
+    if (flatpickrInstance.current) {
+      flatpickrInstance.current.destroy();
+      flatpickrInstance.current = null;
+    }
+  }, [props]);
 
-	useEffect(() => {
-		createFlatpickrInstance();
-		return () => {
-			destroyFlatpickrInstance();
-		};
-	}, [createFlatpickrInstance, destroyFlatpickrInstance]);
+  useEffect(() => {
+    createFlatpickrInstance();
+    return () => {
+      destroyFlatpickrInstance();
+    };
+  }, [createFlatpickrInstance, destroyFlatpickrInstance]);
 
-	useEffect(() => {
-		if (flatpickrInstance.current) {
-			let mergedOptions = mergeHooks(options, props);
-			const optionsKeys = Object.keys(mergedOptions) as (keyof Options)[];
+  useEffect(() => {
+    if (flatpickrInstance.current) {
+      let mergedOptions = mergeHooks(options, props);
+      const optionsKeys = Object.keys(mergedOptions) as (keyof Options)[];
 
-			optionsKeys.forEach((key) => {
-				let val = mergedOptions[key] as FlatpickrOptionValue | FlatpickrOptionValue[];
+      optionsKeys.forEach((key) => {
+        let val = mergedOptions[key] as FlatpickrOptionValue | FlatpickrOptionValue[];
 
-				if (flatpickrInstance.current && flatpickrInstance.current.config) {
-					if (val !== flatpickrInstance.current.config[key]) {
-						// Handle hooks that might need to be arrays
-						if ((Array.from(hooks) as string[]).includes(key as string) && !Array.isArray(val)) {
-							if (val !== undefined) {
-								val = [val];
-							}
-						}
-						if (val !== undefined) {
-							flatpickrInstance.current.set(key, val as any);
-						}
-					}
-				}
-			});
+        if (flatpickrInstance.current && flatpickrInstance.current.config) {
+          if (val !== flatpickrInstance.current.config[key]) {
+            // Handle hooks that might need to be arrays
+            if ((Array.from(hooks) as string[]).includes(key as string) && !Array.isArray(val)) {
+              if (val !== undefined) {
+                val = [val];
+              }
+            }
+            if (val !== undefined) {
+              flatpickrInstance.current.set(key, val as any);
+            }
+          }
+        }
+      });
 
-			if (value !== undefined && flatpickrInstance.current && value !== flatpickrInstance.current.selectedDates) {
-				const mutableValue = Array.isArray(value) ? [...value] : value;
-				flatpickrInstance.current.setDate(mutableValue as DateOption | DateOption[], false);
-			}
-		}
-	}, [options, props, value]);
+      if (value !== undefined && flatpickrInstance.current && value !== flatpickrInstance.current.selectedDates) {
+        const mutableValue = Array.isArray(value) ? [...value] : value;
+        flatpickrInstance.current.setDate(mutableValue as DateOption | DateOption[], false);
+      }
+    }
+  }, [options, props, value]);
 
-	const handleNodeChange = useCallback(
-		(node: HTMLElement | null) => {
-			nodeRef.current = node as HTMLInputElement | null;
-			if (flatpickrInstance.current) {
-				destroyFlatpickrInstance();
-				createFlatpickrInstance();
-			}
-		},
-		[createFlatpickrInstance, destroyFlatpickrInstance]
-	);
+  const handleNodeChange = useCallback(
+    (node: HTMLElement | null) => {
+      nodeRef.current = node as HTMLInputElement | null;
+      if (flatpickrInstance.current) {
+        destroyFlatpickrInstance();
+        createFlatpickrInstance();
+      }
+    },
+    [createFlatpickrInstance, destroyFlatpickrInstance]
+  );
 
-	const filteredProps = { ...props } as Record<string, any>;
-	hooks.forEach((hook) => delete filteredProps[hook]);
-	callbacks.forEach((callback) => delete filteredProps[callback]);
+  const filteredProps = { ...props } as Record<string, any>;
+  hooks.forEach((hook) => delete filteredProps[hook]);
+  callbacks.forEach((callback) => delete filteredProps[callback]);
 
-	// If using a custom render, let the user handle the input element.
-	if (render) {
-		return render(
-			{
-				...filteredProps,
-				value: value !== undefined ? formatValue(value, options.dateFormat as string) : undefined,
-				defaultValue: value === undefined ? defaultValue : undefined,
-			},
-			handleNodeChange,
-			flatpickrInstance.current
-		);
-	}
+  // If using a custom render, let the user handle the input element.
+  if (render) {
+    return render(
+      {
+        ...filteredProps,
+        value: value !== undefined ? formatValue(value, options.dateFormat as string) : undefined,
+        defaultValue: value === undefined ? defaultValue : undefined,
+      },
+      handleNodeChange,
+      flatpickrInstance.current
+    );
+  }
 
-	interface ExtendedInputHTMLAttributes<HTMLInputElement> extends React.InputHTMLAttributes<HTMLInputElement> {
-		ref?: React.Ref<HTMLInputElement>;
-	}
+  interface ExtendedInputHTMLAttributes<HTMLInputElement> extends React.InputHTMLAttributes<HTMLInputElement> {
+    ref?: React.Ref<HTMLInputElement>;
+  }
 
-	// Ensure we don't pass both value and defaultValue together to the input
-	const inputProps: ExtendedInputHTMLAttributes<HTMLInputElement> = {
-		...filteredProps,
-		ref: handleNodeChange,
-		className,
-	};
+  // Ensure we don't pass both value and defaultValue together to the input
+  const inputProps: ExtendedInputHTMLAttributes<HTMLInputElement> = {
+    ...filteredProps,
+    ref: handleNodeChange,
+    className,
+  };
 
-	if (value !== undefined) {
-		inputProps.value = formatValue(value, options.dateFormat as string);
-	} else {
-		inputProps.defaultValue = defaultValue;
-	}
+  if (value !== undefined) {
+    inputProps.value = formatValue(value, options.dateFormat as string);
+  } else {
+    inputProps.defaultValue = defaultValue;
+  }
 
-	return <input {...inputProps} />;
+  return <input {...inputProps} />;
 };
 
 export default DateTimePicker;
